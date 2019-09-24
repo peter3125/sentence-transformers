@@ -26,6 +26,8 @@ queries = ['A man is eating pasta.', 'Someone in a gorilla costume is playing a 
            'how old are you?', 'how many people live in Cornwall?', 'who is the pm of England?']
 query_embeddings = embedder.encode(queries)
 
+threshold = 0.75
+print("threshold set at {}".format(threshold))
 for query, query_embedding in zip(queries, query_embeddings):
     distances = scipy.spatial.distance.cdist([query_embedding], corpus_embeddings, "cosine")[0]
     print("Query: {}".format(query))
@@ -33,5 +35,6 @@ for query, query_embedding in zip(queries, query_embeddings):
     results.sort(key = lambda t: t[1])
     for text, cos in results:
         score = 1.0 - cos
-        print("{}  Score: {}".format(text, round(score, 4)))
-    print("\n\n")
+        if score > threshold:
+            print("{}  Score: {}".format(text, round(score, 4)))
+    print()
