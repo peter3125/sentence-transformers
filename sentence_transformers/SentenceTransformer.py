@@ -46,7 +46,7 @@ class SentenceTransformer(nn.Sequential):
                 default_cache_path = os.path.join(torch_cache_home, 'sentence_transformers')
                 model_path = os.path.join(default_cache_path, folder_name)
                 os.makedirs(model_path, exist_ok=True)
-
+                print(model_path)
 
                 if not os.listdir(model_path):
                     if model_url[-1] is "/":
@@ -54,6 +54,7 @@ class SentenceTransformer(nn.Sequential):
                     logging.info("Downloading sentence transformer model from {} and saving it at {}".format(model_url, model_path))
                     try:
                         zip_save_path = os.path.join(model_path, 'model.zip')
+                        print("getting model_url:" + model_url)
                         http_get(model_url, zip_save_path)
                         with ZipFile(zip_save_path, 'r') as zip:
                             zip.extractall(model_path)
